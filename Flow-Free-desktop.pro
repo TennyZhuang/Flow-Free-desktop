@@ -13,9 +13,9 @@ TEMPLATE = app
 
 CONFIG += C++11
 
-SOURCES += main.cpp\
-        flowfree.cpp
+SOURCES += src/main.cpp\
+        src/flowfree.cpp \
 
-HEADERS  += flowfree.h
+HEADERS  += src/flowfree.h \
 
-FORMS    += flowfree.ui
+FORMS    += src/flowfree.ui
