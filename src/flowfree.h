@@ -13,7 +13,7 @@ class FlowFree : public QMainWindow
 
 public:
     explicit FlowFree(QWidget *parent = 0);
-    ~FlowFree();
+    ~FlowFree();    
 
 private:
     Ui::FlowFree *ui;

@@ -14,8 +14,25 @@ TEMPLATE = app
 CONFIG += C++11
 
 SOURCES += src/main.cpp\
-        src/flowfree.cpp \
+    src/flowfree.cpp \
+    src/gamescene.cpp \
+    src/level.cpp \
+    src/path.cpp \
+    src/gamepoint.cpp \
+    src/gamemodel.cpp
 
-HEADERS  += src/flowfree.h \
+HEADERS  += \
+    src/common.h \
+    src/flowfree.h \
+    src/gamescene.h \
+    src/level.h \
+    src/path.h \
+    src/gamepoint.h \
+    src/gamemodel.h
 
 FORMS    += src/flowfree.ui
+
+RESOURCES += \
+    res/resource.qrc
+
+DISTFILES +=
