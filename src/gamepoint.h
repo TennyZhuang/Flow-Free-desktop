@@ -4,12 +4,12 @@
 #include "common.h"
 
 struct GamePoint {
-    quint32 x;
-    quint32 y;
+    quint32 col;
+    quint32 row;
     Color color;
 
     GamePoint();
-    GamePoint(quint32 x, quint32 y, Color color): x(x), y(y), color(color) { }
+    GamePoint(quint32 x, quint32 y, Color color): col(x), row(y), color(color) { }
 };
 
 #endif // POINT_H

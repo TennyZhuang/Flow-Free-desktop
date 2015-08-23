@@ -36,7 +36,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QToolButton" name="toolButton">
+         <widget class="QToolButton" name="lastLevel">
           <property name="text">
            <string>&lt;</string>
           </property>
@@ -46,7 +46,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_2">
+         <widget class="QToolButton" name="refresh">
           <property name="text">
            <string>.</string>
           </property>
@@ -56,7 +56,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_3">
+         <widget class="QToolButton" name="nextLevel">
           <property name="text">
            <string>&gt;</string>
           </property>

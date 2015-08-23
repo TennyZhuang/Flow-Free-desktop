@@ -4,6 +4,8 @@
 #include "level.h"
 #include <vector>
 
+class Level;
+
 class GameModel
 {
 public:
@@ -12,7 +14,6 @@ public:
     static GameModel* instance();
 
     // Level Controller
-    void gotoLevel(quint32 levelId);
 
     quint32 size() const;
 

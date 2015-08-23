@@ -14,6 +14,12 @@ GameModel::GameModel()
     read();
 }
 
+GameModel::~GameModel()
+{
+    if (_instance)
+        delete _instance;
+}
+
 GameModel* GameModel::instance()
 {
     if (!_instance)
@@ -69,9 +75,3 @@ bool GameModel::read()
 
     return true;
 }
-
-void GameModel::gotoLevel(quint32 levelId)
-{
-
-}
-

@@ -25,7 +25,7 @@ QColor convertToQColor(Color color)
         return Qt::blue;
         break;
     case Color::ORANGE:
-        return Qt::darkYellow;
+        return QColor(250, 128, 10);
         break;
     }
 }
@@ -34,21 +34,44 @@ QColor convertToQColor(Color color)
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent)
 {
-    auto instance = GameModel::instance();
-    const Level level = instance->getLevel(1);
+    loadLevel(1);
+}
+
+bool GameScene::loadLastLevel()
+{
+    return loadLevel(currentLevelId - 1);
+}
+
+bool GameScene::loadNextLevel()
+{
+    return loadLevel(currentLevelId + 1);
+}
+
+bool GameScene::loadLevel(quint32 levelId)
+{
+    auto gameModal = GameModel::instance();
+    if (levelId <= 0 || levelId > gameModal->size())
+        return false;
+
+    const Level level = gameModal->getLevel(levelId);
     points = level.getPoints();
     gameSize = level.getSize();
+    spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
+    diameter = spacing * 0.8;
+    currentLevelId = levelId;
+    repaint();
+    return true;
 }
 
 void GameScene::paintEvent(QPaintEvent *ev)
 {
     // draw background
     QPainter p(this);
-    p.fillRect(0, 0, 400, 400, Qt::black);
+    p.fillRect(0, 0, SCEAN_SIZE, SCEAN_SIZE, Qt::black);
 
     // draw grids
     p.setPen(QPen(QColor(100, 255, 218), 2));
-    quint32 spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
+
     for (quint32 i = 0; i <= gameSize; i++)
     {
         p.drawLine(SCEAN_PADDING,
@@ -64,7 +87,6 @@ void GameScene::paintEvent(QPaintEvent *ev)
 
     // draw point
     p.setPen(Qt::transparent);
-    quint32 diameter = (int)(spacing * 0.8);
     for (const auto& pointRow: points)
     {
         for (const auto& point: pointRow)
@@ -72,9 +94,16 @@ void GameScene::paintEvent(QPaintEvent *ev)
             if ((bool)point.color)
             {
                 p.setBrush(QBrush(convertToQColor(point.color)));
-                p.drawEllipse(SCEAN_PADDING + (point.x + 0.1) * spacing, SCEAN_PADDING + (point.y + 0.1) * spacing, diameter, diameter);
+                p.drawEllipse(SCEAN_PADDING + (point.col + 0.1) * spacing, SCEAN_PADDING + (point.row + 0.1) * spacing, diameter, diameter);
             }
         }
     }
+
+    // draw path
+    // TODO
+
+    // draw foucus
+    // TODO
+
 }
 

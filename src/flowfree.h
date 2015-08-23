@@ -15,6 +15,16 @@ public:
     explicit FlowFree(QWidget *parent = 0);
     ~FlowFree();    
 
+signals:
+    void lastLevel();
+
+    void nextLevel();
+
+private slots:
+    void on_lastLevel_clicked();
+
+    void on_nextLevel_clicked();
+
 private:
     Ui::FlowFree *ui;
 };
