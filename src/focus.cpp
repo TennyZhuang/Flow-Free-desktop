@@ -1,7 +1,7 @@
-#include "focus.h"
+//#include "focus.h"
 
-Focus::Focus()
-{
+//Focus::Focus()
+//{
 
-}
+//}
 

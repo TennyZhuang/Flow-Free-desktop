@@ -4,6 +4,7 @@
 #include <QPen>
 #include <QDebug>
 #include <QColor>
+#include <QMouseEvent>
 
 namespace
 {
@@ -49,6 +50,8 @@ bool GameScene::loadNextLevel()
 
 bool GameScene::loadLevel(quint32 levelId)
 {
+    if (focus)
+        focus = nullptr;
     auto gameModal = GameModel::instance();
     if (levelId <= 0 || levelId > gameModal->size())
         return false;
@@ -103,7 +106,32 @@ void GameScene::paintEvent(QPaintEvent *ev)
     // TODO
 
     // draw foucus
-    // TODO
+    if (focus)
+    {
+        QColor qcolor = convertToQColor(focus->color);
+        qcolor.setAlphaF(0.4);
+        p.setBrush(qcolor);
+        p.drawEllipse(*focus, diameter, diameter);
+    }
 
 }
 
+void GameScene::mousePressEvent(QMouseEvent* ev)
+{
+    focus = new FocusPoint();
+}
+
+void GameScene::mouseMoveEvent(QMouseEvent *ev)
+{
+    focus->setX(ev->x());
+    focus->setY(ev->y());
+    focus->color = Color::RED;
+    repaint();
+}
+
+void GameScene::mouseReleaseEvent(QMouseEvent *ev)
+{
+    delete focus;
+    focus = nullptr;
+    repaint();
+}
