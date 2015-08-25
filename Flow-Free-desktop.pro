@@ -19,7 +19,6 @@ SOURCES += src/main.cpp\
     src/level.cpp \
     src/gamepoint.cpp \
     src/gamemodel.cpp \
-    src/focus.cpp \
     src/gameroute.cpp
 
 HEADERS  += \
@@ -29,7 +28,6 @@ HEADERS  += \
     src/level.h \
     src/gamepoint.h \
     src/gamemodel.h \
-    src/focus.h \
     src/gameroute.h
 
 FORMS    += src/flowfree.ui

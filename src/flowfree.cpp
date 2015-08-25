@@ -7,24 +7,17 @@ FlowFree::FlowFree(QWidget *parent) :
     ui(new Ui::FlowFree)
 {
     ui->setupUi(this);
-    QObject::connect(this, SIGNAL(lastLevel()),
+    QObject::connect(ui->lastLevel, SIGNAL(clicked(bool)),
                     ui->gameScene, SLOT(loadLastLevel()));
 
-    QObject::connect(this, SIGNAL(nextLevel()),
+    QObject::connect(ui->nextLevel, SIGNAL(clicked(bool)),
                      ui->gameScene, SLOT(loadNextLevel()));
+
+    QObject::connect(ui->refresh, SIGNAL(clicked(bool)),
+                     ui->gameScene, SLOT(clearRoutes()));
 }
 
 FlowFree::~FlowFree()
 {
     delete ui;
-}
-
-void FlowFree::on_lastLevel_clicked()
-{
-    emit lastLevel();
-}
-
-void FlowFree::on_nextLevel_clicked()
-{
-    emit nextLevel();
 }

@@ -22,9 +22,12 @@ public:
 //    Level(const Level&) = default;
 //    Level(Level&& level): id(level.id), size(level.size), points(std::move(level.points)) { }
 
+    quint32 getColorsSize() const;
+
 private:
     quint32 id;
     quint32 size;
+    quint32 colorsSize;
     std::vector<std::vector<GamePoint>> points;
 };
 

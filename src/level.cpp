@@ -19,3 +19,8 @@ const std::vector<std::vector<GamePoint>>& Level::getPoints() const
 {
     return points;
 }
+quint32 Level::getColorsSize() const
+{
+    return colorsSize;
+}
+

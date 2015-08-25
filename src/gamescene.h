@@ -17,32 +17,41 @@ public:
     void mouseMoveEvent(QMouseEvent* ev);
     void mouseReleaseEvent(QMouseEvent* ev);
 
-    class FocusPoint: public QPoint
+    struct FocusPoint: public QPoint
     {
-    public:
-        int x, y;
+        int xp, yp;
         Color color;
+        bool isActive;
         FocusPoint() { }
-        FocusPoint(int x, int y, Color color): QPoint(x, y), color(color) { }
+        FocusPoint(int x, int y, Color color): QPoint(x, y), color(color), isActive(true) { }
     };
 
 private:
     quint32 gameSize;
-    quint32 colorSize;
+    quint32 colorsSize;
     std::vector<std::vector<GamePoint>> points;
-    std::vector<GameRoute> paths;
+    std::vector<GameRoute> routes;
     FocusPoint* focus;
 
     quint32 spacing;
     quint32 diameter;
 
     quint32 currentLevelId;
-    bool isClicked;
+
+    Color currentColor;
+    GamePoint* currentPoint;
+//    quint32 currentRow;
+//    quint32 currentCol;
+
+    inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
+    inline quint32 convertIndexToPixel(quint32 index) const;
+    inline quint32 convertPixelToIndex(quint32 pixel) const;
 signals:
 
 public slots:
     bool loadLastLevel();
     bool loadNextLevel();
+    void clearRoutes();
 };
 
 #endif // GAMESCENE_H

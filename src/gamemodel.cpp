@@ -1,6 +1,6 @@
 #include "gamemodel.h"
 #include "gamepoint.h"
-#include "path.h"
+#include "gameroute.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -59,6 +59,7 @@ bool GameModel::read()
         Level tempLevel;
         tempLevel.id = levelsIter->toObject()["id"].toInt();
         tempLevel.size = levelsIter->toObject()["size"].toInt();
+        tempLevel.colorsSize = levelsIter->toObject()["colors"].toInt();
         tempLevel.points.resize(tempLevel.size);
 
         const auto& levelDataJsonArray = levelsIter->toObject()["data"].toArray();
