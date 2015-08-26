@@ -1,5 +1,6 @@
 #include "completedialog.h"
 #include "ui_completedialog.h"
+#include "ui_flowfree.h"
 
 CompleteDialog::CompleteDialog(QWidget *parent) :
     QDialog(parent),
@@ -15,5 +16,10 @@ CompleteDialog::~CompleteDialog()
 
 void CompleteDialog::on_cancelButton_clicked()
 {
-    this->close();
+    emit reject();
+}
+
+void CompleteDialog::on_nextLevelButton_clicked()
+{
+    emit accept();
 }

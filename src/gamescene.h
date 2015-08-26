@@ -46,12 +46,9 @@ private:
     inline quint32 convertIndexToPixel(quint32 index) const;
     inline quint32 convertPixelToIndex(quint32 pixel) const;
 signals:
-
+    void nextLevel();
 public slots:
     void onLoadLevel(quint32 currentLevelId);
-//    bool loadLastLevel();
-//    bool loadNextLevel();
-//    void clearRoutes();
 };
 
 #endif // GAMESCENE_H

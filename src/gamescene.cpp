@@ -6,6 +6,8 @@
 #include <QDebug>
 #include <QColor>
 #include <QMouseEvent>
+#include <QDialog>
+#include <QMessageBox>
 #include <iostream>
 #include <assert.h>
 
@@ -43,28 +45,8 @@ inline bool overBound(int x, int y) {
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent)
 {
-//    loadLevel(1);
+
 }
-
-//bool GameScene::loadLastLevel()
-//{
-//    return loadLevel(currentLevelId - 1);
-//}
-
-//bool GameScene::loadNextLevel()
-//{
-//    return loadLevel(currentLevelId + 1);
-//}
-
-//void GameScene::clearRoutes()
-//{
-//    loadLevel(currentLevelId);
-//}
-
-//bool GameScene::loadLevel(quint32 levelId)
-//{
-
-//}
 
 void GameScene::paintEvent(QPaintEvent *ev)
 {
@@ -174,7 +156,6 @@ void GameScene::mousePressEvent(QMouseEvent* ev)
         {
             routes[(int)currentColor].clear();
             routes[(int)currentColor].addEndpoint(currentPoint);
-//            qDebug() << routes[(int)currentColor].getEndpoints();
         }
         else
         {
@@ -217,8 +198,6 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
     }
 
     // overstep
-//    qDebug() << gameSize;
-    qDebug() << abs(currentPoint->col - tempCol) + abs(currentPoint->row - tempRow);
     if (abs(currentPoint->col - tempCol) + abs(currentPoint->row - tempRow) > 1)
     {
         focus->isActive = false;
@@ -245,7 +224,6 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
                 else
                 {
                     // end point
-//                    qDebug() << (int)tempPoint->color;
                 }
                 routes[(int)currentColor].addEndpoint(tempPoint);
                 currentPoint = tempPoint;
@@ -269,7 +247,6 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
     }
 
     focus->isActive = true;
-//    qDebug() << routes[(int)currentColor].getEndpoints();
     if (routes[(int)currentColor].getEndpoints() == 2)
     {
         repaint();
@@ -278,7 +255,6 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
 
     if (!(*((routes[(int)currentColor]).getPoints().end() - 1) == tempPoint))
     {
-//        qDebug() << &points[tempRow][tempCol];
         routes[(int)currentColor].addPoint(&points[tempRow][tempCol]);
     }
     tempPoint->color = currentColor;
@@ -302,8 +278,9 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
         if (route.getEndpoints() == 2)
             ++routesCnt;
         pointsCnt += route.getLength();
+        qDebug() << routesCnt << pointsCnt;
     }
-    if (routesCnt == gameSize)
+    if (routesCnt == colorsSize)
     {
         complete(pointsCnt);
     }
@@ -313,12 +290,18 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
 
 void GameScene::complete(int pointsCount)
 {
-    qDebug() << "complete";
-    CompleteDialog dialog;
-    dialog.exec();
+//    qDebug() << "complete";
     if (pointsCount == colorsSize * colorsSize)
     {
-        qDebug() << "win";
+        CompleteDialog dialog;
+        if (dialog.exec())
+        {
+            emit nextLevel();
+        }
+    }
+    else
+    {
+        QMessageBox::about(nullptr, "alert", "You should <b>fill</b> the puzzle with pipes.");
     }
 }
 
@@ -359,6 +342,5 @@ void GameScene::onLoadLevel(quint32 currentLevelId)
     for (int i = 1; i <= colorsSize; i++)
         routes[i].setColor((Color)i);
     currentPoint = nullptr;
-    qDebug() << " " << routes.size();
     repaint();
 }

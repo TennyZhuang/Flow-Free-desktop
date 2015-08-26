@@ -18,6 +18,8 @@ public:
 private slots:
     void on_cancelButton_clicked();
 
+    void on_nextLevelButton_clicked();
+
 private:
     Ui::CompleteDialog *ui;
 };

@@ -32,6 +32,9 @@ FlowFree::FlowFree(QWidget *parent) :
         ui->nextLevelButton->setEnabled(currentLevelId != gameSize);
     });
 
+    QObject::connect(ui->gameScene, &GameScene::nextLevel,
+                     [=]() { ui->nextLevelButton->click(); });
+
     currentLevelId = 0;
     ui->nextLevelButton->click();
 //    emit loadLevel(++currentLevelId);
