@@ -42,6 +42,7 @@ private:
     GamePoint* currentPoint;
 //    quint32 currentRow;
 //    quint32 currentCol;
+    void complete(int pointsCount);
 
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
     inline quint32 convertIndexToPixel(quint32 index) const;

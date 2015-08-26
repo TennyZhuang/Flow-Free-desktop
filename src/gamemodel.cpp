@@ -41,7 +41,7 @@ const Level& GameModel::getLevel(quint32 levelId) const
 
 bool GameModel::read()
 {
-    QFile dataFile(":/data/data/levels.json");
+    QFile dataFile(":/data/levels.json");
 
     if (!dataFile.open(QIODevice::ReadOnly))
     {

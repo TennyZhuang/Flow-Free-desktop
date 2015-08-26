@@ -96,14 +96,14 @@ void GameScene::paintEvent(QPaintEvent *ev)
 
     for (quint32 i = 0; i <= gameSize; i++)
     {
-        p.drawLine(SCEAN_PADDING + 1,
-                   SCEAN_PADDING + 1 + i * spacing,
+        p.drawLine(SCEAN_PADDING + 2,
+                   SCEAN_PADDING + 2 + i * spacing,
                    SCEAN_SIZE - SCEAN_PADDING,
-                   SCEAN_PADDING + 1 + i * spacing);
+                   SCEAN_PADDING + 2 + i * spacing);
 
-        p.drawLine(SCEAN_PADDING + 1 + i * spacing,
-                   SCEAN_PADDING + 1,
-                   SCEAN_PADDING + 1 +  i * spacing,
+        p.drawLine(SCEAN_PADDING + 2 + i * spacing,
+                   SCEAN_PADDING + 2,
+                   SCEAN_PADDING + 2 +  i * spacing,
                    SCEAN_SIZE - SCEAN_PADDING);
     }
 
@@ -262,9 +262,20 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
                 {
                     // end point
 //                    qDebug() << (int)tempPoint->color;
-
                 }
                 routes[(int)currentColor].addEndpoint(tempPoint);
+                int pointsCnt = 0;
+                int routesCnt = 0;
+                for (const auto& route: routes)
+                {
+                    if (route.getEndpoints() == 2)
+                        ++routesCnt;
+                    pointsCnt += route.getLength();
+                }
+                if (routesCnt == gameSize)
+                {
+                    complete(pointsCnt);
+                }
                 currentPoint = tempPoint;
             }
             else
@@ -315,14 +326,23 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
     repaint();
 }
 
+void GameScene::complete(int pointsCount)
+{
+    qDebug() << "complete";
+    if (pointsCount == colorsSize * colorsSize)
+    {
+        qDebug() << "win";
+    }
+}
+
 inline quint32 GameScene::convertIndexToGridCenterPixel(quint32 index) const
 {
-    return SCEAN_PADDING + (index + 0.5) * spacing;
+    return SCEAN_PADDING + 2 + (index + 0.5) * spacing;
 }
 
 inline quint32 GameScene::convertIndexToPixel(quint32 index) const
 {
-    return SCEAN_PADDING + index * spacing;
+    return SCEAN_PADDING + 2 + index * spacing;
 }
 
 inline quint32 GameScene::convertPixelToIndex(quint32 pixel) const
