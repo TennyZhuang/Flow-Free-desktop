@@ -2,4 +2,8 @@
     <qresource prefix="/data">
         <file alias="levels.json">data/levels.json</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file alias="connect.wav">sounds/connect.wav</file>
+        <file alias="break.wav">sounds/break.wav</file>
+    </qresource>
 </RCC>

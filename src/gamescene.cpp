@@ -45,7 +45,16 @@ inline bool overBound(int x, int y) {
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent)
 {
+    connectedSound = new QSound(":/sounds/connect.wav");
+    breakedSound = new QSound(":/sounds/break.wav");
+}
 
+GameScene::~GameScene()
+{
+    delete connectedSound;
+    delete breakedSound;
+    if (currentPoint)
+        delete currentPoint;
 }
 
 void GameScene::paintEvent(QPaintEvent *ev)
@@ -242,6 +251,8 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
         {
             // not end point
             // break current route
+            if (tempPoint->color != currentColor)
+                breakedSound->play();
             routes[(int)tempPoint->color].eraseAfter(tempPoint);
         }
     }
@@ -267,6 +278,8 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
 {
     if (focus)
         delete focus;
+    if (routes[(int)currentColor].getEndpoints() == 2)
+        connectedSound->play();
     focus = nullptr;
     setCursor(Qt::ArrowCursor);
     currentColor = Color::NONE;

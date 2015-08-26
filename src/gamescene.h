@@ -5,12 +5,14 @@
 #include "gamemodel.h"
 #include "gameroute.h"
 #include <QWidget>
+#include <QSound>
 
 class GameScene : public QWidget
 {
     Q_OBJECT
 public:
     explicit GameScene(QWidget *parent = 0);
+    ~GameScene();
     bool loadLevel(quint32 levelId);
     void paintEvent(QPaintEvent *ev);
     void mousePressEvent(QMouseEvent* ev);
@@ -40,6 +42,10 @@ private:
 
     Color currentColor;
     GamePoint* currentPoint;
+
+    QSound* connectedSound;
+    QSound* breakedSound;
+
     void complete(int pointsCount);
 
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
