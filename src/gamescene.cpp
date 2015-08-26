@@ -156,13 +156,13 @@ void GameScene::paintEvent(QPaintEvent *ev)
                                      convertIndexToGridCenterPixel(point.row)),
                               diameter >> 1, diameter >> 1);
             }
-            std::cout << (int)point.color << ' ';
+//            std::cout << (int)point.color << ' ';
         }
-        std::cout << std::endl;
+//        std::cout << std::endl;
     }
-    std::cout << std::endl;
-    std::cout << std::endl;
-    std::cout << std::endl;
+//    std::cout << std::endl;
+//    std::cout << std::endl;
+//    std::cout << std::endl;
 
     // draw foucus
     if (focus)
@@ -235,8 +235,7 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
 
     // overstep
 //    qDebug() << gameSize;
-//    qDebug() << abs(currentPoint.col + currentPoint.row - tempCol - tempRow);
-    if (abs(currentPoint->col + currentPoint->row - tempCol - tempRow) > 1)
+    if (abs(currentPoint->col - tempCol) + abs(currentPoint->row - tempRow) > 1)
     {
         focus->isActive = false;
         repaint();
@@ -296,7 +295,7 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
 
     if (!(*((routes[(int)currentColor]).getPoints().end() - 1) == tempPoint))
     {
-        qDebug() << &points[tempRow][tempCol];
+//        qDebug() << &points[tempRow][tempCol];
         routes[(int)currentColor].addPoint(&points[tempRow][tempCol]);
     }
     tempPoint->color = currentColor;
