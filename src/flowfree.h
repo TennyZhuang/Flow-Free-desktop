@@ -16,11 +16,12 @@ public:
     ~FlowFree();    
 
 signals:
-
+    void loadLevel(quint32 levelId);
 private slots:
 
 private:
     Ui::FlowFree *ui;
+    quint32 currentLevelId;
 };
 
 #endif // FLOWFREE_H

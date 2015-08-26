@@ -40,8 +40,6 @@ private:
 
     Color currentColor;
     GamePoint* currentPoint;
-//    quint32 currentRow;
-//    quint32 currentCol;
     void complete(int pointsCount);
 
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
@@ -50,9 +48,10 @@ private:
 signals:
 
 public slots:
-    bool loadLastLevel();
-    bool loadNextLevel();
-    void clearRoutes();
+    void onLoadLevel(quint32 currentLevelId);
+//    bool loadLastLevel();
+//    bool loadNextLevel();
+//    void clearRoutes();
 };
 
 #endif // GAMESCENE_H

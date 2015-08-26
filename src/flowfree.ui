@@ -37,7 +37,6 @@
         <property name="styleSheet">
          <string notr="true"/>
         </property>
-        <zorder></zorder>
        </widget>
       </item>
       <item>
@@ -59,21 +58,21 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="lastLevel">
+         <widget class="QPushButton" name="lastLevelButton">
           <property name="text">
            <string>Last</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="refresh">
+         <widget class="QPushButton" name="reloadButton">
           <property name="text">
-           <string>Refresh</string>
+           <string>reload</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="nextLevel">
+         <widget class="QPushButton" name="nextLevelButton">
           <property name="styleSheet">
            <string notr="true">font: 13pt &quot;Helvetica&quot;;</string>
           </property>
@@ -135,7 +134,4 @@
  </customwidgets>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

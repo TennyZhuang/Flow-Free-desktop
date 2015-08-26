@@ -1,11 +1,13 @@
 #include "common.h"
 #include "gamescene.h"
+#include "completedialog.h"
 #include <QPainter>
 #include <QPen>
 #include <QDebug>
 #include <QColor>
 #include <QMouseEvent>
 #include <iostream>
+#include <assert.h>
 
 namespace
 {
@@ -41,47 +43,28 @@ inline bool overBound(int x, int y) {
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent)
 {
-    loadLevel(1);
+//    loadLevel(1);
 }
 
-bool GameScene::loadLastLevel()
-{
-    return loadLevel(currentLevelId - 1);
-}
+//bool GameScene::loadLastLevel()
+//{
+//    return loadLevel(currentLevelId - 1);
+//}
 
-bool GameScene::loadNextLevel()
-{
-    return loadLevel(currentLevelId + 1);
-}
+//bool GameScene::loadNextLevel()
+//{
+//    return loadLevel(currentLevelId + 1);
+//}
 
-void GameScene::clearRoutes()
-{
-    loadLevel(currentLevelId);
-}
+//void GameScene::clearRoutes()
+//{
+//    loadLevel(currentLevelId);
+//}
 
-bool GameScene::loadLevel(quint32 levelId)
-{
-    focus = nullptr;
-    auto gameModal = GameModel::instance();
-    if (levelId <= 0 || levelId > gameModal->size())
-        return false;
+//bool GameScene::loadLevel(quint32 levelId)
+//{
 
-    const Level level = gameModal->getLevel(levelId);
-    points = level.getPoints();
-    gameSize = level.getSize();
-    colorsSize = level.getColorsSize();
-    spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
-    diameter = spacing * 0.8;
-    currentLevelId = levelId;
-    routes.clear();
-    routes.resize(colorsSize + 1, points);
-    for (int i = 1; i <= colorsSize; i++)
-        routes[i].setColor((Color)i);
-    currentPoint = nullptr;
-    qDebug() << " " << routes.size();
-    repaint();
-    return true;
-}
+//}
 
 void GameScene::paintEvent(QPaintEvent *ev)
 {
@@ -179,7 +162,7 @@ void GameScene::mousePressEvent(QMouseEvent* ev)
     if (overBound(ev->x(), ev->y()))
         return;
 
-    setCursor(Qt::CrossCursor);
+    setCursor(Qt::OpenHandCursor);
     currentPoint = &points[convertPixelToIndex(ev->y())][convertPixelToIndex(ev->x())];
     if ((bool)currentPoint->color)
     {
@@ -235,6 +218,7 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
 
     // overstep
 //    qDebug() << gameSize;
+    qDebug() << abs(currentPoint->col - tempCol) + abs(currentPoint->row - tempRow);
     if (abs(currentPoint->col - tempCol) + abs(currentPoint->row - tempRow) > 1)
     {
         focus->isActive = false;
@@ -264,18 +248,6 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
 //                    qDebug() << (int)tempPoint->color;
                 }
                 routes[(int)currentColor].addEndpoint(tempPoint);
-                int pointsCnt = 0;
-                int routesCnt = 0;
-                for (const auto& route: routes)
-                {
-                    if (route.getEndpoints() == 2)
-                        ++routesCnt;
-                    pointsCnt += route.getLength();
-                }
-                if (routesCnt == gameSize)
-                {
-                    complete(pointsCnt);
-                }
                 currentPoint = tempPoint;
             }
             else
@@ -323,12 +295,27 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
     setCursor(Qt::ArrowCursor);
     currentColor = Color::NONE;
     currentPoint = nullptr;
+    int pointsCnt = 0;
+    int routesCnt = 0;
+    for (const auto& route: routes)
+    {
+        if (route.getEndpoints() == 2)
+            ++routesCnt;
+        pointsCnt += route.getLength();
+    }
+    if (routesCnt == gameSize)
+    {
+        complete(pointsCnt);
+    }
+
     repaint();
 }
 
 void GameScene::complete(int pointsCount)
 {
     qDebug() << "complete";
+    CompleteDialog dialog;
+    dialog.exec();
     if (pointsCount == colorsSize * colorsSize)
     {
         qDebug() << "win";
@@ -352,4 +339,26 @@ inline quint32 GameScene::convertPixelToIndex(quint32 pixel) const
     if (pixel >= SCEAN_SIZE - SCEAN_PADDING)
         return gameSize - 1;
     return (pixel - SCEAN_PADDING) / spacing;
+}
+
+void GameScene::onLoadLevel(quint32 currentLevelId)
+{
+    focus = nullptr;
+    auto gameModal = GameModel::instance();
+    assert(currentLevelId > 0 || currentLevelId <= gameModal->size());
+
+    const Level level = gameModal->getLevel(currentLevelId);
+    points = level.getPoints();
+    gameSize = level.getSize();
+    colorsSize = level.getColorsSize();
+    spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
+    diameter = spacing * 0.8;
+    this->currentLevelId = currentLevelId;
+    routes.clear();
+    routes.resize(colorsSize + 1, points);
+    for (int i = 1; i <= colorsSize; i++)
+        routes[i].setColor((Color)i);
+    currentPoint = nullptr;
+    qDebug() << " " << routes.size();
+    repaint();
 }
