@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QColor>
 #include <QMouseEvent>
-//#include <iostream>
+#include <iostream>
 
 namespace
 {
@@ -156,13 +156,13 @@ void GameScene::paintEvent(QPaintEvent *ev)
                                      convertIndexToGridCenterPixel(point.row)),
                               diameter >> 1, diameter >> 1);
             }
-//            std::cout << (int)point.color << ' ';
+            std::cout << (int)point.color << ' ';
         }
-//        std::cout << std::endl;
+        std::cout << std::endl;
     }
-//    std::cout << std::endl;
-//    std::cout << std::endl;
-//    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << std::endl;
 
     // draw foucus
     if (focus)

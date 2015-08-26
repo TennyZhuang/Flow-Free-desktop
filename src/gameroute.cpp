@@ -17,10 +17,6 @@ void GameRoute::eraseAfter(GamePoint *point, bool plus)
     {
         --endpoints;
     }
-    else if ((*(routePoints.end() - 1)) != point)
-    {
-        (*(routePoints.end() - 1))->color = Color::NONE;
-    }
 
     auto pit = std::find(routePoints.begin(), routePoints.end(), point);
     pit = (plus)? pit + 1: pit;
@@ -29,8 +25,9 @@ void GameRoute::eraseAfter(GamePoint *point, bool plus)
         return;
     }
 
-    for_each(pit, routePoints.end() - 1, [](GamePoint* point) {
-        point->color = Color::NONE;
+    for_each(pit, routePoints.end(), [](GamePoint* point) {
+        if (!point->isEndpoint)
+            point->color = Color::NONE;
     });
 
     routePoints.erase(pit, routePoints.end());
@@ -49,6 +46,10 @@ void GameRoute::addPoint(GamePoint *point)
 void GameRoute::clear()
 {
     endpoints = 0;
+    for_each(routePoints.begin(), routePoints.end(), [](GamePoint* point) {
+        if (!point->isEndpoint)
+            point->color = Color::NONE;
+    });
     routePoints.clear();
 }
 
