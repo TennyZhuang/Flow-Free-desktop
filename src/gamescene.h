@@ -55,6 +55,7 @@ signals:
     void nextLevel();
 public slots:
     void onLoadLevel(quint32 currentLevelId);
+    void autoSolve();
 };
 
 #endif // GAMESCENE_H

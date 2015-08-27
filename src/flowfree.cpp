@@ -36,6 +36,9 @@ FlowFree::FlowFree(QWidget *parent) :
         ui->nextLevelButton->setEnabled(currentLevelId != gameSize);
     });
 
+    connect(ui->resultButton, &QPushButton::clicked,
+            ui->gameScene, &GameScene::autoSolve);
+
     connect(ui->gameScene, &GameScene::nextLevel,
                      [=]() { ui->nextLevelButton->click(); });
 

@@ -370,3 +370,8 @@ void GameScene::onLoadLevel(quint32 currentLevelId)
     currentPoint = nullptr;
     repaint();
 }
+
+void GameScene::autoSolve()
+{
+    qDebug() << "solving";
+}
