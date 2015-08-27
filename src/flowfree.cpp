@@ -10,10 +10,10 @@ FlowFree::FlowFree(QWidget *parent) :
 {
     ui->setupUi(this);
     quint32 gameSize = GameModel::instance()->size();
-    QObject::connect(this, SIGNAL(loadLevel(quint32)),
+    connect(this, SIGNAL(loadLevel(quint32)),
                      ui->gameScene, SLOT(onLoadLevel(quint32)));
 
-    QObject::connect(ui->lastLevelButton, &QPushButton::clicked,
+    connect(ui->lastLevelButton, &QPushButton::clicked,
                      [=]()
     {
         emit loadLevel(--currentLevelId);
@@ -21,10 +21,14 @@ FlowFree::FlowFree(QWidget *parent) :
         ui->nextLevelButton->setEnabled(currentLevelId != gameSize);
     });
 
-    QObject::connect(ui->reloadButton, &QPushButton::clicked,
-                     [=]() { emit loadLevel(currentLevelId); });
+    connect(ui->reloadButton, &QPushButton::clicked,
+                     [=]()
+    {
+        QSound::play(":/sounds/break.wav");
+        emit loadLevel(currentLevelId);
+    });
 
-    QObject::connect(ui->nextLevelButton, &QPushButton::clicked,
+    connect(ui->nextLevelButton, &QPushButton::clicked,
                      [=]()
     {
         emit loadLevel(++currentLevelId);
@@ -32,7 +36,7 @@ FlowFree::FlowFree(QWidget *parent) :
         ui->nextLevelButton->setEnabled(currentLevelId != gameSize);
     });
 
-    QObject::connect(ui->gameScene, &GameScene::nextLevel,
+    connect(ui->gameScene, &GameScene::nextLevel,
                      [=]() { ui->nextLevelButton->click(); });
 
     currentLevelId = 0;

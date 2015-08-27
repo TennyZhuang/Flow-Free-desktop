@@ -197,8 +197,6 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
     int tempRow = convertPixelToIndex(ev->y());
     int tempCol = convertPixelToIndex(ev->x());
 
-//    qDebug() << tempCol << tempRow;
-//    qDebug() << " " << currentPoint->col << currentPoint->row;
     if (tempRow == currentPoint->row && tempCol == currentPoint->col)
     {
         // point not changed
@@ -218,6 +216,11 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
     if ((bool)tempPoint->color)
     {
         // have color
+        if (currentPoint->isEndpoint && tempPoint->color != currentColor)
+        {
+            repaint();
+            return;
+        }
         if (tempPoint->isEndpoint)
         {
             // is end point
@@ -293,6 +296,7 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
         pointsCnt += route.getLength();
         qDebug() << routesCnt << pointsCnt;
     }
+
     if (routesCnt == colorsSize)
     {
         complete(pointsCnt);
