@@ -13,7 +13,6 @@ class GameScene : public QWidget
 public:
     explicit GameScene(QWidget *parent = 0);
     ~GameScene();
-    bool loadLevel(quint32 levelId);
     void paintEvent(QPaintEvent *ev);
     void mousePressEvent(QMouseEvent* ev);
     void mouseMoveEvent(QMouseEvent* ev);
@@ -47,6 +46,7 @@ private:
     QSound* breakedSound;
 
     void complete(int pointsCount);
+    bool dfs(int routeId);
 
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
     inline quint32 convertIndexToPixel(quint32 index) const;
@@ -55,7 +55,7 @@ signals:
     void nextLevel();
 public slots:
     void onLoadLevel(quint32 currentLevelId);
-    void autoSolve();
+    bool autoSolve();
 };
 
 #endif // GAMESCENE_H

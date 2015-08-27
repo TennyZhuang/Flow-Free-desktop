@@ -5,7 +5,8 @@ GameRoute::GameRoute(const std::vector<std::vector<GamePoint> > &points):
     points(points),
     endpoints(0)
 {
-
+    p1 = nullptr;
+    p2 = nullptr;
 }
 
 void GameRoute::eraseAfter(GamePoint *point, bool plus)
@@ -43,6 +44,12 @@ void GameRoute::addPoint(GamePoint *point)
     routePoints.push_back(point);
 }
 
+void GameRoute::popPoint()
+{
+    if (routePoints.size())
+        routePoints.pop_back();
+}
+
 void GameRoute::clear()
 {
     endpoints = 0;
@@ -66,6 +73,24 @@ Color GameRoute::getColor() const
 void GameRoute::setColor(const Color &value)
 {
     color = value;
+    for (int i = 0; i < points.size(); i++)
+    {
+        for (int j = 0; j < points.size(); j++)
+        {
+            if (points[j][i].color == value)
+            {
+                if (p1)
+                {
+                    p2 = &points[j][i];
+                    return;
+                }
+                else
+                {
+                    p1 = &points[j][i];
+                }
+            }
+        }
+    }
 }
 quint32 GameRoute::getEndpoints() const
 {
@@ -79,5 +104,17 @@ void GameRoute::addEndpoint(GamePoint *point)
     addPoint(point);
     ++endpoints;
 }
+
+GamePoint *GameRoute::getP1() const
+{
+    return p1;
+}
+
+GamePoint *GameRoute::getP2() const
+{
+    return p2;
+}
+
+
 
 

@@ -50,6 +50,8 @@ inline bool overBound(int x, int y) {
             y >= SCEAN_SIZE || y < 0);
 }
 
+const int directions[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+
 }
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent)
@@ -303,7 +305,7 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
         if (route.getEndpoints() == 2)
             ++routesCnt;
         pointsCnt += route.getLength();
-        qDebug() << routesCnt << pointsCnt;
+//        qDebug() << routesCnt << pointsCnt;
     }
 
     if (routesCnt == colorsSize)
@@ -316,8 +318,8 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev)
 
 void GameScene::complete(int pointsCount)
 {
-//    qDebug() << "complete";
-    if (pointsCount == colorsSize * colorsSize)
+//    qDebug() << colorsSize;
+    if (pointsCount == gameSize * gameSize)
     {
         CompleteDialog dialog;
         if (dialog.exec())
@@ -329,6 +331,68 @@ void GameScene::complete(int pointsCount)
     {
         QMessageBox::about(nullptr, "alert", "You should <b>fill</b> the puzzle with pipes.");
     }
+}
+
+bool GameScene::autoSolve()
+{
+    onLoadLevel(currentLevelId);
+    for (auto& route: routes)
+    {
+        route.addEndpoint(route.getP1());
+    }
+
+    if (dfs(1))
+    {
+        qDebug() << "solved";
+        repaint();
+    }
+//    qDebug() << "end";
+}
+
+bool GameScene::dfs(int routeId)
+{
+    if (routeId == colorsSize + 1)
+        return true;
+    GameRoute* route = &routes[routeId];
+
+    int col1 = route->getPoints().back()->col;
+    int row1 = route->getPoints().back()->row;
+//    qDebug() << row1 << col1;
+
+    for (int i = 0; i < 4; i++)
+    {
+        int row2 = row1 + directions[i][0];
+        int col2 = col1 + directions[i][1];
+
+        GamePoint* point = &points[row2][col2];
+        if (row2 < gameSize && row2 >= 0 && col2 < gameSize && col2 >= 0)
+        {
+            if (*point == *(route->getP1()))
+            {
+                qDebug() << "start";
+            }
+            if (*point == *(route->getP2()))
+            {
+                qDebug() << "find";
+                route->addEndpoint(point);
+                if (dfs(routeId + 1))
+                    return true;
+                route->popPoint();
+                --route->endpoints;
+            }
+            else if (!(bool)point->color)
+            {
+                point->color = route->getColor();
+                route->addPoint(point);
+                if (dfs(routeId))
+                    return true;
+                route->popPoint();
+                point->color = Color::NONE;
+            }
+        }
+    }
+
+    return false;
 }
 
 inline quint32 GameScene::convertIndexToGridCenterPixel(quint32 index) const
@@ -369,9 +433,4 @@ void GameScene::onLoadLevel(quint32 currentLevelId)
         routes[i].setColor((Color)i);
     currentPoint = nullptr;
     repaint();
-}
-
-void GameScene::autoSolve()
-{
-    qDebug() << "solving";
 }

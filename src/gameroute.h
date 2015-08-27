@@ -16,6 +16,7 @@ public:
     void eraseAfter(GamePoint* point, bool plus = false);
     int getLength() const;
     void addPoint(GamePoint* point);
+    void popPoint();
     void clear();
 
     const std::vector<GamePoint*> &getPoints() const;
@@ -28,9 +29,14 @@ public:
 
     void addEndpoint(GamePoint* point);
 
-private:
+    GamePoint *getP1() const;
+
+    GamePoint *getP2() const;
     quint32 endpoints;
+private:
     Color color;
+    GamePoint* p1;
+    GamePoint* p2;
     std::vector<std::vector<GamePoint>> points;
     std::vector<GamePoint*> routePoints;
 };
