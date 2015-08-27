@@ -225,7 +225,7 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev)
     if ((bool)tempPoint->color)
     {
         // have color
-        if (currentPoint->isEndpoint && tempPoint->color != currentColor)
+        if (currentPoint->isEndpoint && routes[(int)currentColor].getLength() > 1 && tempPoint->color != currentColor)
         {
             repaint();
             return;
