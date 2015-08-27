@@ -46,6 +46,8 @@ void GameRoute::addPoint(GamePoint *point)
 
 void GameRoute::popPoint()
 {
+    if (routePoints.back()->isEndpoint)
+        --endpoints;
     if (routePoints.size())
         routePoints.pop_back();
 }

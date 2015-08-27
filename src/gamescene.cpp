@@ -357,7 +357,6 @@ bool GameScene::dfs(int routeId)
 
     int col1 = route->getPoints().back()->col;
     int row1 = route->getPoints().back()->row;
-//    qDebug() << row1 << col1;
 
     for (int i = 0; i < 4; i++)
     {
@@ -367,10 +366,6 @@ bool GameScene::dfs(int routeId)
         GamePoint* point = &points[row2][col2];
         if (row2 < gameSize && row2 >= 0 && col2 < gameSize && col2 >= 0)
         {
-            if (*point == *(route->getP1()))
-            {
-                qDebug() << "start";
-            }
             if (*point == *(route->getP2()))
             {
                 qDebug() << "find";
@@ -378,7 +373,6 @@ bool GameScene::dfs(int routeId)
                 if (dfs(routeId + 1))
                     return true;
                 route->popPoint();
-                --route->endpoints;
             }
             else if (!(bool)point->color)
             {

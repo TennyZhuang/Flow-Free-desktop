@@ -1,7 +1,6 @@
 #ifndef GAMEROUTE_H
 #define GAMEROUTE_H
 #include "gamepoint.h"
-#include <memory>
 
 enum class Direction
 {
