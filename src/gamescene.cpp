@@ -33,6 +33,15 @@ QColor convertToQColor(Color color)
     case Color::ORANGE:
         return QColor(250, 128, 10);
         break;
+    case Color::CYAN:
+        return Qt::cyan;
+        break;
+    case Color::PINK:
+        return QColor(240, 98, 146);
+        break;
+    default:
+        assert(false);
+        return Qt::transparent;
     }
 }
 

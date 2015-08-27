@@ -9,7 +9,9 @@ enum class Color
     GREEN,
     YELLOW,
     BLUE,
-    ORANGE
+    ORANGE,
+    CYAN,
+    PINK
 };
 
 const qint32 SCEAN_SIZE = 400;
