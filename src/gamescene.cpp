@@ -60,7 +60,7 @@ inline bool overBound(int x, int y) {
 // four directions used in auto solve
 const int directions[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-}
+} // anonymous namespace
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent) {
     connectedSound = new QSound(":/sounds/connect.wav");
@@ -303,6 +303,7 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev) {
                 ++routesCnt;
 
             pointsCnt += route.getLength();
+            qDebug() << routesCnt << pointsCnt;
         }
 
         if (routesCnt == colorsSize) {
@@ -328,8 +329,8 @@ void GameScene::complete(int pointsCount) {
 bool GameScene::autoSolve() {
     onLoadLevel(currentLevelId);
 
-    for (auto& route: routes) {
-        route.addEndpoint(route.getP1());
+    for (int i = 1; i <= colorsSize; i++) {
+        routes[i].addEndpoint(routes[i].getP1());
     }
 
     if (dfs(1)) {
@@ -343,8 +344,21 @@ bool GameScene::autoSolve() {
 }
 
 bool GameScene::dfs(int routeId) {
-    if (routeId == colorsSize + 1)
-        return true;
+    if (routeId == colorsSize + 1) {
+        int pointsCnt = 0;
+        int routeCnt = 0;
+
+        for (int i = 1; i <= colorsSize; i++) {
+            if (routes[i].getEndpoints() == 2)
+                ++routeCnt;
+
+            pointsCnt += routes[i].getLength();
+        }
+
+        if (routeCnt == colorsSize && pointsCnt == gameSize * gameSize) {
+            return true;
+        }
+    }
 
     GameRoute* route = &routes[routeId];
 
@@ -359,7 +373,6 @@ bool GameScene::dfs(int routeId) {
 
         if (row2 < gameSize && row2 >= 0 && col2 < gameSize && col2 >= 0) {
             if (*point == *(route->getP2())) {
-                qDebug() << "find";
                 route->addEndpoint(point);
 
                 if (dfs(routeId + 1))
