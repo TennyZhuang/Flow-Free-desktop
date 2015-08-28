@@ -12,10 +12,12 @@ CompleteDialog::~CompleteDialog() {
     delete ui;
 }
 
-void CompleteDialog::changeText(int movesCount) {
-    QString prefix = "You solved this level in ";
-    QString suffix = " moves";
-    ui->label->setText(prefix + QString::number(movesCount) + suffix);
+void CompleteDialog::changeText(int movesCount, int completeTime) {
+    ui->label->setText(QString("You finished this level in ") +
+                       QString::number(movesCount) +
+                       QString(" moves and ") +
+                       QString::number(completeTime) +
+                       QString(" seconds"));
 }
 
 void CompleteDialog::on_cancelButton_clicked() {

@@ -67,9 +67,16 @@ GameScene::GameScene(QWidget *parent) : QWidget(parent) {
     breakedSound = new QSound(":/sounds/break.wav");
     isSoundEnable = true;
     dialog = new CompleteDialog;
+    timer = new QTimer;
+    timer->setInterval(1000);
 
-    connect(this, SIGNAL(completeWith(int)),
-            dialog, SLOT(changeText(int)));
+    connect(timer, &QTimer::timeout,
+    [=]() {
+        emit timeChanged(++currentTime);
+    });
+
+    connect(this, SIGNAL(completeWith(int,int)),
+            dialog, SLOT(changeText(int,int)));
 }
 
 GameScene::~GameScene() {
@@ -315,7 +322,7 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev) {
 
 void GameScene::complete(int pointsCount) {
     if (pointsCount == gameSize * gameSize) {
-        emit completeWith(movesCount);
+        emit completeWith(movesCount, currentTime);
 
         if (dialog->exec()) {
             emit nextLevel();
@@ -424,6 +431,9 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
     auto gameModal = GameModel::instance();
     assert(currentLevelId > 0 || currentLevelId <= gameModal->size());
     movesCount = 0;
+    currentTime = 0;
+    emit timeChanged(currentTime);
+    timer->start();
     const Level level = gameModal->getLevel(currentLevelId);
     points = level.getPoints();
     gameSize = level.getSize();

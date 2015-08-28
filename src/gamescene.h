@@ -7,6 +7,7 @@
 #include "completedialog.h"
 #include <QWidget>
 #include <QSound>
+#include <QTimer>
 
 class CompleteDialog;
 class QDialog;
@@ -51,6 +52,9 @@ class GameScene : public QWidget {
     CompleteDialog* dialog;
     int movesCount;
 
+    QTimer* timer;
+    int currentTime;
+
     void complete(int pointsCount);
     bool dfs(int routeId);
 
@@ -60,7 +64,8 @@ class GameScene : public QWidget {
     inline quint32 convertPixelToIndex(quint32 pixel) const;
   signals:
     void nextLevel();
-    void completeWith(int movesCount);
+    void completeWith(int movesCount, int completeTime);
+    void timeChanged(int currentTime);
   public slots:
     void onLoadLevel(quint32 currentLevelId);
     bool autoSolve();

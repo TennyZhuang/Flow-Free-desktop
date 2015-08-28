@@ -44,10 +44,11 @@ FlowFree::FlowFree(QWidget *parent) :
     connect(ui->soundCheckBox, &QCheckBox::stateChanged,
             ui->gameScene, &GameScene::setSound);
 
+    connect(ui->gameScene, SIGNAL(timeChanged(int)),
+            ui->lcdNumber, SLOT(display(int)));
+
     currentLevelId = 0;
     ui->nextLevelButton->click();
-//    emit loadLevel(++currentLevelId);
-//    ui->lastLevelButton->setEnabled(currentLevelId != 1);
 }
 
 FlowFree::~FlowFree() {

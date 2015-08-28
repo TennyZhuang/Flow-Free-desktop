@@ -26,21 +26,47 @@
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <item alignment="Qt::AlignRight">
-       <widget class="QCheckBox" name="soundCheckBox">
-        <property name="mouseTracking">
-         <bool>true</bool>
-        </property>
-        <property name="text">
-         <string>sound effect</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item alignment="Qt::AlignLeft">
+         <widget class="QLCDNumber" name="lcdNumber">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(82, 82, 82);</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Plain</enum>
+          </property>
+          <property name="midLineWidth">
+           <number>0</number>
+          </property>
+          <property name="digitCount">
+           <number>5</number>
+          </property>
+          <property name="segmentStyle">
+           <enum>QLCDNumber::Filled</enum>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignRight">
+         <widget class="QCheckBox" name="soundCheckBox">
+          <property name="mouseTracking">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>sound effect</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item alignment="Qt::AlignHCenter">
        <widget class="GameScene" name="gameScene" native="true">
