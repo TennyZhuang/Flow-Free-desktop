@@ -2,15 +2,13 @@
 #define GAMEROUTE_H
 #include "gamepoint.h"
 
-enum class Direction
-{
+enum class Direction {
     HORIZON = 0,
     VERTICAL
 };
 
-class GameRoute
-{
-public:
+class GameRoute {
+  public:
     GameRoute(const std::vector<std::vector<GamePoint>>& points);
     void eraseAfter(GamePoint* point, bool plus = false);
     int getLength() const;
@@ -32,7 +30,7 @@ public:
 
     GamePoint *getP2() const;
     quint32 endpoints;
-private:
+  private:
     Color color;
     GamePoint* p1;
     GamePoint* p2;

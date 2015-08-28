@@ -2,8 +2,7 @@
 #define COMMON
 #include <QObject>
 
-enum class Color
-{
+enum class Color {
     NONE = 0,
     RED,
     GREEN,

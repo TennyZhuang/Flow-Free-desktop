@@ -7,20 +7,19 @@ namespace Ui {
 class CompleteDialog;
 }
 
-class CompleteDialog : public QDialog
-{
+class CompleteDialog : public QDialog {
     Q_OBJECT
 
-public:
+  public:
     explicit CompleteDialog(QWidget *parent = 0);
     ~CompleteDialog();
 
-private slots:
+  private slots:
     void on_cancelButton_clicked();
 
     void on_nextLevelButton_clicked();
 
-private:
+  private:
     Ui::CompleteDialog *ui;
 };
 

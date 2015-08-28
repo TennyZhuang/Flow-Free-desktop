@@ -6,9 +6,8 @@
 
 class Level;
 
-class GameModel
-{
-public:
+class GameModel {
+  public:
     ~GameModel();
 
     static GameModel* instance();
@@ -19,7 +18,7 @@ public:
 
     // getter
     const Level& getLevel(quint32 levelId) const;
-private:
+  private:
     // Singleton instance
     static GameModel* _instance;
 

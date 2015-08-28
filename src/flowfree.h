@@ -7,19 +7,18 @@ namespace Ui {
 class FlowFree;
 }
 
-class FlowFree : public QMainWindow
-{
+class FlowFree : public QMainWindow {
     Q_OBJECT
 
-public:
+  public:
     explicit FlowFree(QWidget *parent = 0);
-    ~FlowFree();    
+    ~FlowFree();
 
-signals:
+  signals:
     void loadLevel(quint32 levelId);
-private slots:
+  private slots:
 
-private:
+  private:
     Ui::FlowFree *ui;
     quint32 currentLevelId;
 };

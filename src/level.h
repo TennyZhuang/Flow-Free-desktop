@@ -5,9 +5,8 @@
 #include "gamepoint.h"
 #include <vector>
 
-class Level
-{
-public:
+class Level {
+  public:
     Level();
 
     // Game Model can write level data
@@ -24,7 +23,7 @@ public:
 
     quint32 getColorsSize() const;
 
-private:
+  private:
     quint32 id;
     quint32 size;
     quint32 colorsSize;

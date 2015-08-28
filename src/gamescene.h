@@ -7,10 +7,9 @@
 #include <QWidget>
 #include <QSound>
 
-class GameScene : public QWidget
-{
+class GameScene : public QWidget {
     Q_OBJECT
-public:
+  public:
     explicit GameScene(QWidget *parent = 0);
     ~GameScene();
     void paintEvent(QPaintEvent *ev);
@@ -18,8 +17,7 @@ public:
     void mouseMoveEvent(QMouseEvent* ev);
     void mouseReleaseEvent(QMouseEvent* ev);
 
-    struct FocusPoint: public QPoint
-    {
+    struct FocusPoint: public QPoint {
         int xp, yp;
         Color color;
         bool isActive;
@@ -27,7 +25,7 @@ public:
         FocusPoint(int x, int y, Color color): QPoint(x, y), color(color), isActive(true) { }
     };
 
-private:
+  private:
     quint32 gameSize;
     quint32 colorsSize;
     std::vector<std::vector<GamePoint>> points;
@@ -51,9 +49,9 @@ private:
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
     inline quint32 convertIndexToPixel(quint32 index) const;
     inline quint32 convertPixelToIndex(quint32 pixel) const;
-signals:
+  signals:
     void nextLevel();
-public slots:
+  public slots:
     void onLoadLevel(quint32 currentLevelId);
     bool autoSolve();
 };
