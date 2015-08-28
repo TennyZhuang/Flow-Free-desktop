@@ -5,6 +5,7 @@
 #include "gamemodel.h"
 #include "gameroute.h"
 #include "completedialog.h"
+#include "gamesolver.h"
 #include <QWidget>
 #include <QSound>
 #include <QTimer>
@@ -36,6 +37,10 @@ class GameScene : public QWidget {
     quint32 colorsSize;
     std::vector<std::vector<GamePoint>> points;
     std::vector<GameRoute> routes;
+
+    std::vector<std::vector<GamePoint>> answerPoints;
+    std::vector<GameRoute> answerRoutes;
+
     FocusPoint* focus;
 
     quint32 spacing;
@@ -55,8 +60,10 @@ class GameScene : public QWidget {
     QTimer* timer;
     int currentTime;
 
+    GameSolver* solver;
+
     void complete(int pointsCount);
-    bool dfs(int routeId);
+//    bool dfs(int routeId);
 
     bool isSoundEnable;
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
@@ -66,10 +73,12 @@ class GameScene : public QWidget {
     void nextLevel();
     void completeWith(int movesCount, int completeTime);
     void timeChanged(int currentTime);
+    void enableResultButton();
   public slots:
     void onLoadLevel(quint32 currentLevelId);
     bool autoSolve();
     void setSound(int setting);
+    void onSolved();
 };
 
 #endif // GAMESCENE_H

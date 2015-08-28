@@ -9,10 +9,9 @@ GameRoute::GameRoute(const std::vector<std::vector<GamePoint> > &points):
 }
 
 void GameRoute::eraseAfter(GamePoint *point, bool plus) {
-    qDebug() << "erasing";
-
-    if (routePoints.size() < 1)
+    if (routePoints.size() < 1) {
         return;
+    }
 
     if ((*(routePoints.end() - 1))->isEndpoint) {
         --endpoints;
@@ -26,8 +25,9 @@ void GameRoute::eraseAfter(GamePoint *point, bool plus) {
     }
 
     for_each(pit, routePoints.end(), [](GamePoint* point) {
-        if (!point->isEndpoint)
+        if (!point->isEndpoint) {
             point->color = Color::NONE;
+        }
     });
 
     routePoints.erase(pit, routePoints.end());
@@ -42,18 +42,21 @@ void GameRoute::addPoint(GamePoint *point) {
 }
 
 void GameRoute::popPoint() {
-    if (routePoints.back()->isEndpoint)
+    if (routePoints.back()->isEndpoint) {
         --endpoints;
+    }
 
-    if (routePoints.size())
+    if (routePoints.size()) {
         routePoints.pop_back();
+    }
 }
 
 void GameRoute::clear() {
     endpoints = 0;
     for_each(routePoints.begin(), routePoints.end(), [](GamePoint* point) {
-        if (!point->isEndpoint)
+        if (!point->isEndpoint) {
             point->color = Color::NONE;
+        }
     });
     routePoints.clear();
 }
@@ -87,8 +90,9 @@ quint32 GameRoute::getEndpoints() const {
 }
 
 void GameRoute::addEndpoint(GamePoint *point) {
-    if (endpoints >= 2)
+    if (endpoints >= 2) {
         return;
+    }
 
     addPoint(point);
     ++endpoints;
@@ -101,7 +105,3 @@ GamePoint *GameRoute::getP1() const {
 GamePoint *GameRoute::getP2() const {
     return p2;
 }
-
-
-
-

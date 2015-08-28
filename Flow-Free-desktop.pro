@@ -20,7 +20,8 @@ SOURCES += src/main.cpp\
     src/gamepoint.cpp \
     src/gamemodel.cpp \
     src/gameroute.cpp \
-    src/completedialog.cpp
+    src/completedialog.cpp \
+    src/gamesolver.cpp
 
 HEADERS  += \
     src/common.h \
@@ -30,7 +31,8 @@ HEADERS  += \
     src/gamepoint.h \
     src/gamemodel.h \
     src/gameroute.h \
-    src/completedialog.h
+    src/completedialog.h \
+    src/gamesolver.h
 
 FORMS    += src/flowfree.ui \
     src/completedialog.ui

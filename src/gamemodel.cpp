@@ -14,13 +14,15 @@ GameModel::GameModel() {
 }
 
 GameModel::~GameModel() {
-    if (_instance)
+    if (_instance) {
         delete _instance;
+    }
 }
 
 GameModel* GameModel::instance() {
-    if (!_instance)
+    if (!_instance) {
         _instance = new GameModel;
+    }
 
     return _instance;
 }

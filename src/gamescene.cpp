@@ -1,5 +1,6 @@
 #include "common.h"
 #include "gamescene.h"
+#include "gamesolver.h"
 #include <QPainter>
 #include <QPen>
 #include <QLabel>
@@ -8,7 +9,6 @@
 #include <QMouseEvent>
 #include <QDialog>
 #include <QMessageBox>
-//#include <iostream>
 #include <assert.h>
 
 // some helper function, only used in this file
@@ -84,8 +84,9 @@ GameScene::~GameScene() {
     delete breakedSound;
     delete dialog;
 
-    if (currentPoint)
+    if (currentPoint) {
         delete currentPoint;
+    }
 }
 
 void GameScene::paintEvent(QPaintEvent *ev) {
@@ -112,8 +113,9 @@ void GameScene::paintEvent(QPaintEvent *ev) {
     for (int i = 1; i <= colorsSize; i++) {
         const auto& points = routes[i].getPoints();
 
-        if (points.size() < 1)
+        if (points.size() < 1) {
             continue;
+        }
 
 
         QPen pen(convertToQColor(routes[i].getColor()), 20);
@@ -131,8 +133,9 @@ void GameScene::paintEvent(QPaintEvent *ev) {
         auto qColor = convertToQColor(routes[i].getColor());
         qColor.setAlphaF(0.4);
 
-        if (i == (int)currentColor)
+        if (i == (int)currentColor) {
             continue;
+        }
 
         for (auto& point: points) {
             p.fillRect(convertIndexToPixel(point->col),
@@ -167,15 +170,17 @@ void GameScene::paintEvent(QPaintEvent *ev) {
 }
 
 void GameScene::mousePressEvent(QMouseEvent* ev) {
-    if (overBound(ev->x(), ev->y()))
+    if (overBound(ev->x(), ev->y())) {
         return;
+    }
 
     setCursor(Qt::OpenHandCursor);
     currentPoint = &points[convertPixelToIndex(ev->y())][convertPixelToIndex(ev->x())];
 
     if ((bool)currentPoint->color) {
-        if (currentColor != currentPoint->color)
+        if (currentColor != currentPoint->color) {
             ++movesCount;
+        }
 
         currentColor = currentPoint->color;
         focus = new FocusPoint(ev->x(), ev->y(),
@@ -194,8 +199,9 @@ void GameScene::mousePressEvent(QMouseEvent* ev) {
 
 void GameScene::mouseMoveEvent(QMouseEvent *ev) {
     // over screen
-    if (overBound(ev->x(), ev->y()))
+    if (overBound(ev->x(), ev->y())) {
         return;
+    }
 
     // update focus
     if (focus) {
@@ -262,8 +268,9 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev) {
             // not end point
             // break current route
             if (tempPoint->color != currentColor)
-                if (isSoundEnable)
+                if (isSoundEnable) {
                     breakedSound->play();
+                }
 
             routes[(int)tempPoint->color].eraseAfter(tempPoint);
         }
@@ -287,12 +294,14 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev) {
 }
 
 void GameScene::mouseReleaseEvent(QMouseEvent *ev) {
-    if (focus)
+    if (focus) {
         delete focus;
+    }
 
     if (routes[(int)currentColor].getEndpoints() == 2)
-        if (isSoundEnable)
+        if (isSoundEnable) {
             connectedSound->play();
+        }
 
     focus = nullptr;
     setCursor(Qt::ArrowCursor);
@@ -305,8 +314,9 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev) {
         int routesCnt = 0;
 
         for (const auto& route: routes) {
-            if (route.getEndpoints() == 2)
+            if (route.getEndpoints() == 2) {
                 ++routesCnt;
+            }
 
             pointsCnt += route.getLength();
             qDebug() << routesCnt << pointsCnt;
@@ -333,79 +343,29 @@ void GameScene::complete(int pointsCount) {
 }
 
 bool GameScene::autoSolve() {
-    for (int i = 1; i <= colorsSize; i++) {
-        routes[i].clear();
-        routes[i].addEndpoint(routes[i].getP1());
-    }
+    while (solver);
 
-    movesCount = 0;
+    points = answerPoints;
+    routes = answerRoutes;
+    movesCount = colorsSize;
+    update();
 
-    if (dfs(1)) {
-        update();
-        return true;
-    } else {
-        // All levels in the game should has solution
-        QMessageBox::warning(nullptr, tr("Fail"), tr("This level has no solution"));
-        return false;
-    }
+    return true;
 }
 
 void GameScene::setSound(int setting) {
     isSoundEnable = (bool)setting;
 }
 
-bool GameScene::dfs(int routeId) {
-    if (routeId == colorsSize + 1) {
-        int pointsCnt = 0;
-        int routeCnt = 0;
-
-        for (int i = 1; i <= colorsSize; i++) {
-            if (routes[i].getEndpoints() == 2) {
-                ++movesCount;
-                ++routeCnt;
-            }
-
-            pointsCnt += routes[i].getLength();
-        }
-
-        if (routeCnt == colorsSize && pointsCnt == gameSize * gameSize) {
-            return true;
-        }
-    }
-
-    GameRoute* route = &routes[routeId];
-
-    int col1 = route->getPoints().back()->col;
-    int row1 = route->getPoints().back()->row;
-
-    for (int i = 0; i < 4; i++) {
-        int row2 = row1 + directions[i][0];
-        int col2 = col1 + directions[i][1];
-
-        GamePoint* point = &points[row2][col2];
-
-        if (row2 < gameSize && row2 >= 0 && col2 < gameSize && col2 >= 0) {
-            if (*point == *(route->getP2())) {
-                route->addEndpoint(point);
-
-                if (dfs(routeId + 1))
-                    return true;
-
-                route->popPoint();
-            } else if (!(bool)point->color) {
-                point->color = route->getColor();
-                route->addPoint(point);
-
-                if (dfs(routeId))
-                    return true;
-
-                route->popPoint();
-                point->color = Color::NONE;
-            }
-        }
-    }
-
-    return false;
+void GameScene::onSolved() {
+    qDebug() << "1234";
+    answerPoints = solver->getPoints();
+    answerRoutes = solver->getRoutes();
+    qDebug() << answerPoints.size();
+    qDebug() << answerRoutes.size();
+//    delete solver;
+    solver = nullptr;
+    emit enableResultButton();
 }
 
 inline quint32 GameScene::convertIndexToGridCenterPixel(quint32 index) const {
@@ -417,11 +377,13 @@ inline quint32 GameScene::convertIndexToPixel(quint32 index) const {
 }
 
 inline quint32 GameScene::convertPixelToIndex(quint32 pixel) const {
-    if (pixel < SCEAN_PADDING)
+    if (pixel < SCEAN_PADDING) {
         return 0;
+    }
 
-    if (pixel >= SCEAN_SIZE - SCEAN_PADDING)
+    if (pixel >= SCEAN_SIZE - SCEAN_PADDING) {
         return gameSize - 1;
+    }
 
     return (pixel - SCEAN_PADDING) / spacing;
 }
@@ -438,12 +400,21 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
     points = level.getPoints();
     gameSize = level.getSize();
     colorsSize = level.getColorsSize();
+
+    solver = new GameSolver(points, colorsSize);
+    connect(solver, &GameSolver::finished,
+            this, &GameScene::onSolved);
+
+    solver->start();
+//    solver->wait();
+
     spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
     diameter = spacing * 0.8;
 
     if (this->currentLevelId == currentLevelId) {
-        if (isSoundEnable)
+        if (isSoundEnable) {
             breakedSound->play();
+        }
     } else {
         this->currentLevelId = currentLevelId;
     }

@@ -16,19 +16,21 @@ FlowFree::FlowFree(QWidget *parent) :
     connect(ui->lastLevelButton, &QPushButton::clicked,
     [=]() {
         emit loadLevel(--currentLevelId);
+        ui->resultButton->setEnabled(false);
         ui->lastLevelButton->setEnabled(currentLevelId != 1);
         ui->nextLevelButton->setEnabled(currentLevelId != gameSize);
     });
 
     connect(ui->reloadButton, &QPushButton::clicked,
     [=]() {
-//        QSound::play(":/sounds/break.wav");
         emit loadLevel(currentLevelId);
+        ui->resultButton->setEnabled(false);
     });
 
     connect(ui->nextLevelButton, &QPushButton::clicked,
     [=]() {
         emit loadLevel(++currentLevelId);
+        ui->resultButton->setEnabled(false);
         ui->lastLevelButton->setEnabled(currentLevelId != 1);
         ui->nextLevelButton->setEnabled(currentLevelId != gameSize);
     });
@@ -46,6 +48,11 @@ FlowFree::FlowFree(QWidget *parent) :
 
     connect(ui->gameScene, SIGNAL(timeChanged(int)),
             ui->lcdNumber, SLOT(display(int)));
+
+    connect(ui->gameScene, &GameScene::enableResultButton,
+    [=]() {
+        ui->resultButton->setEnabled(true);
+    });
 
     currentLevelId = 0;
     ui->nextLevelButton->click();
