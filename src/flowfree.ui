@@ -28,8 +28,17 @@
      <layout class="QVBoxLayout" name="verticalLayout">
       <item alignment="Qt::AlignRight">
        <widget class="QCheckBox" name="soundCheckBox">
+        <property name="mouseTracking">
+         <bool>true</bool>
+        </property>
         <property name="text">
          <string>sound effect</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -8,6 +8,7 @@ FlowFree::FlowFree(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FlowFree) {
     ui->setupUi(this);
+
     quint32 gameSize = GameModel::instance()->size();
     connect(this, SIGNAL(loadLevel(quint32)),
             ui->gameScene, SLOT(onLoadLevel(quint32)));

@@ -38,4 +38,6 @@ FORMS    += src/flowfree.ui \
 RESOURCES += \
     res/resource.qrc
 
+ICON = res/images/icon.png
+
 DISTFILES +=
