@@ -26,6 +26,13 @@
    <layout class="QHBoxLayout" name="horizontalLayout_3">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <item alignment="Qt::AlignRight">
+       <widget class="QCheckBox" name="soundCheckBox">
+        <property name="text">
+         <string>sound effect</string>
+        </property>
+       </widget>
+      </item>
       <item alignment="Qt::AlignHCenter">
        <widget class="GameScene" name="gameScene" native="true">
         <property name="minimumSize">

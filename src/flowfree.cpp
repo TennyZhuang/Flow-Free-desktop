@@ -21,7 +21,7 @@ FlowFree::FlowFree(QWidget *parent) :
 
     connect(ui->reloadButton, &QPushButton::clicked,
     [=]() {
-        QSound::play(":/sounds/break.wav");
+//        QSound::play(":/sounds/break.wav");
         emit loadLevel(currentLevelId);
     });
 
@@ -39,6 +39,9 @@ FlowFree::FlowFree(QWidget *parent) :
     [=]() {
         ui->nextLevelButton->click();
     });
+
+    connect(ui->soundCheckBox, &QCheckBox::stateChanged,
+            ui->gameScene, &GameScene::setSound);
 
     currentLevelId = 0;
     ui->nextLevelButton->click();

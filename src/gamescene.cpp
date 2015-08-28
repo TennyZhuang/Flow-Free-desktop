@@ -65,6 +65,7 @@ const int directions[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 GameScene::GameScene(QWidget *parent) : QWidget(parent) {
     connectedSound = new QSound(":/sounds/connect.wav");
     breakedSound = new QSound(":/sounds/break.wav");
+    isSoundEnable = true;
 }
 
 GameScene::~GameScene() {
@@ -258,7 +259,8 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev) {
             // not end point
             // break current route
             if (tempPoint->color != currentColor)
-                breakedSound->play();
+                if (isSoundEnable)
+                    breakedSound->play();
 
             routes[(int)tempPoint->color].eraseAfter(tempPoint);
         }
@@ -286,7 +288,8 @@ void GameScene::mouseReleaseEvent(QMouseEvent *ev) {
         delete focus;
 
     if (routes[(int)currentColor].getEndpoints() == 2)
-        connectedSound->play();
+        if (isSoundEnable)
+            connectedSound->play();
 
     focus = nullptr;
     setCursor(Qt::ArrowCursor);
@@ -327,9 +330,8 @@ void GameScene::complete(int pointsCount) {
 }
 
 bool GameScene::autoSolve() {
-    onLoadLevel(currentLevelId);
-
     for (int i = 1; i <= colorsSize; i++) {
+        routes[i].clear();
         routes[i].addEndpoint(routes[i].getP1());
     }
 
@@ -341,6 +343,10 @@ bool GameScene::autoSolve() {
         QMessageBox::warning(nullptr, tr("Fail"), tr("This level has no solution"));
         return false;
     }
+}
+
+void GameScene::setSound(int setting) {
+    isSoundEnable = (bool)setting;
 }
 
 bool GameScene::dfs(int routeId) {
@@ -424,7 +430,12 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
     colorsSize = level.getColorsSize();
     spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
     diameter = spacing * 0.8;
-    this->currentLevelId = currentLevelId;
+    if (this->currentLevelId == currentLevelId) {
+        if (isSoundEnable)
+            breakedSound->play();
+    } else {
+        this->currentLevelId = currentLevelId;
+    }
     routes.clear();
     routes.resize(colorsSize + 1, points);
 

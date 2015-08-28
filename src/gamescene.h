@@ -46,6 +46,7 @@ class GameScene : public QWidget {
     void complete(int pointsCount);
     bool dfs(int routeId);
 
+    bool isSoundEnable;
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
     inline quint32 convertIndexToPixel(quint32 index) const;
     inline quint32 convertPixelToIndex(quint32 pixel) const;
@@ -54,6 +55,7 @@ class GameScene : public QWidget {
   public slots:
     void onLoadLevel(quint32 currentLevelId);
     bool autoSolve();
+    void setSound(int setting);
 };
 
 #endif // GAMESCENE_H
