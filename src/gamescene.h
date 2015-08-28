@@ -4,8 +4,13 @@
 #include "gamepoint.h"
 #include "gamemodel.h"
 #include "gameroute.h"
+#include "completedialog.h"
 #include <QWidget>
 #include <QSound>
+
+class CompleteDialog;
+class QDialog;
+class QLabel;
 
 class GameScene : public QWidget {
     Q_OBJECT
@@ -43,6 +48,9 @@ class GameScene : public QWidget {
     QSound* connectedSound;
     QSound* breakedSound;
 
+    CompleteDialog* dialog;
+    int movesCount;
+
     void complete(int pointsCount);
     bool dfs(int routeId);
 
@@ -52,6 +60,7 @@ class GameScene : public QWidget {
     inline quint32 convertPixelToIndex(quint32 pixel) const;
   signals:
     void nextLevel();
+    void completeWith(int movesCount);
   public slots:
     void onLoadLevel(quint32 currentLevelId);
     bool autoSolve();

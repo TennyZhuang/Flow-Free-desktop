@@ -13,7 +13,8 @@ class CompleteDialog : public QDialog {
   public:
     explicit CompleteDialog(QWidget *parent = 0);
     ~CompleteDialog();
-
+  public slots:
+    void changeText(int movesCount);
   private slots:
     void on_cancelButton_clicked();
 
