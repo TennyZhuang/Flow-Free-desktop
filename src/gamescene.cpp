@@ -218,6 +218,11 @@ void GameScene::mouseMoveEvent(QMouseEvent *ev) {
         return;
     }
 
+    if (tempCol >= gameSize || tempCol < 0 || tempRow >= gameSize || tempRow < 0) {
+        update();
+        return;
+    }
+
     GamePoint* tempPoint = &points[tempRow][tempCol];
 
     if ((bool)tempPoint->color) {
