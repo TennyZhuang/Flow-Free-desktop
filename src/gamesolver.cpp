@@ -39,6 +39,7 @@ void GameSolver::run() {
         QMessageBox::warning(nullptr, tr("failed"), tr("This level has no solution"), QMessageBox::Cancel);
     }
 }
+
 int GameSolver::getSolveTime() const {
     return solveTime;
 }

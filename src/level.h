@@ -14,12 +14,10 @@ class Level {
 
     // getter
     int getSize() const;
-    int getId() const;
-    const std::vector<std::vector<GamePoint>>& getPoints() const;
 
-    // move constructor
-//    Level(const Level&) = default;
-//    Level(Level&& level): id(level.id), size(level.size), points(std::move(level.points)) { }
+    int getId() const;
+
+    const std::vector<std::vector<GamePoint>>& getPoints() const;
 
     quint32 getColorsSize() const;
 

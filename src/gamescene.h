@@ -18,10 +18,15 @@ class GameScene : public QWidget {
     Q_OBJECT
   public:
     explicit GameScene(QWidget *parent = 0);
+
     ~GameScene();
+
     void paintEvent(QPaintEvent *ev);
+
     void mousePressEvent(QMouseEvent* ev);
+
     void mouseMoveEvent(QMouseEvent* ev);
+
     void mouseReleaseEvent(QMouseEvent* ev);
 
     struct FocusPoint: public QPoint {
@@ -63,21 +68,31 @@ class GameScene : public QWidget {
     GameSolver* solver;
 
     void complete(int pointsCount);
-//    bool dfs(int routeId);
 
     bool isSoundEnable;
+
     inline quint32 convertIndexToGridCenterPixel(quint32 index) const;
+
     inline quint32 convertIndexToPixel(quint32 index) const;
+
     inline quint32 convertPixelToIndex(quint32 pixel) const;
+
   signals:
     void nextLevel();
+
     void completeWith(int movesCount, int completeTime);
+
     void timeChanged(int currentTime);
+
     void enableResultButton();
+
   public slots:
     void onLoadLevel(quint32 currentLevelId);
+
     bool autoSolve();
+
     void setSound(int setting);
+
     void onSolved();
 };
 
