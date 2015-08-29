@@ -8,6 +8,21 @@ GameRoute::GameRoute(const std::vector<std::vector<GamePoint> > &points):
     p2 = nullptr;
 }
 
+GameRoute GameRoute::operator =(const GameRoute &route) {
+    qDebug() << "copying";
+
+    for (const auto point: route.getPoints()) {
+        routePoints.push_back(&points[point->row][point->col]);
+    }
+
+    endpoints = route.getEndpoints();
+    color = route.getColor();
+//    p1 = &points[route.getP1()->row][route.getP1()->col];
+//    p2 = &points[route.getP2()->row][route.getP2()->col];
+
+    return *this;
+}
+
 void GameRoute::eraseAfter(GamePoint *point, bool plus) {
     if (routePoints.size() < 1) {
         return;
@@ -85,6 +100,7 @@ void GameRoute::setColor(const Color &value) {
         }
     }
 }
+
 quint32 GameRoute::getEndpoints() const {
     return endpoints;
 }

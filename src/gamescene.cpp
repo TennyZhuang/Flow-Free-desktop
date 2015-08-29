@@ -346,15 +346,19 @@ void GameScene::complete(int pointsCount) {
 bool GameScene::autoSolve() {
     for (int i = 0; i < gameSize; i++) {
         for (int j = 0; j < gameSize; j++) {
-            points[j][i] = answerPoints[j][i];
+            points[j][i].color = answerPoints[j][i].color;
         }
     }
 
     for (int i = 1; i <= colorsSize; i++) {
         routes[i].clear();
+        routes[i].setColor((Color)i);
+
         for (const auto point: answerRoutes[i].getPoints()) {
-            routes[i].addPoint(&points[point->row][point->col]);
+            routes[i].addPoint(&(points[point->row][point->col]));
         }
+
+        routes[i].endpoints = answerRoutes[i].endpoints;
     }
 
     movesCount = colorsSize;
@@ -410,6 +414,7 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
         delete solver;
         solver = nullptr;
     }
+
     points = level.getPoints();
     gameSize = level.getSize();
     colorsSize = level.getColorsSize();
@@ -419,7 +424,6 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
             this, &GameScene::onSolved);
 
     solver->start();
-//    solver->wait();
 
     spacing = (SCEAN_SIZE - SCEAN_PADDING * 2) / gameSize;
     diameter = spacing * 0.8;

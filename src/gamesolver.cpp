@@ -27,12 +27,9 @@ void GameSolver::run() {
         routes[i].addEndpoint(routes[i].getP1());
     }
 
-    qDebug() << dfs(1);
-
-    for (auto& route: routes) {
-        qDebug() << route.getLength();
-    }
+    dfs(1);
 }
+
 std::vector<GameRoute> GameSolver::getRoutes() const {
     return routes;
 }

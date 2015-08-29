@@ -10,6 +10,8 @@ enum class Direction {
 class GameRoute {
   public:
     GameRoute(const std::vector<std::vector<GamePoint>>& points);
+//    GameRoute(const GameRoute& route);
+    GameRoute operator = (const GameRoute& route);
     void eraseAfter(GamePoint* point, bool plus = false);
     int getLength() const;
     void addPoint(GamePoint* point);
