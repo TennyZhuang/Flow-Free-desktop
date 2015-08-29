@@ -1,5 +1,7 @@
 #include "gamesolver.h"
-#include <qDebug>
+#include <QDebug>
+#include <QTime>
+#include <QMessageBox>
 
 namespace {
 
@@ -27,8 +29,20 @@ void GameSolver::run() {
         routes[i].addEndpoint(routes[i].getP1());
     }
 
-    dfs(1);
+    QTime timeCounter;
+    timeCounter.start();
+    if (dfs(1)) {
+        solveTime = timeCounter.elapsed();
+    } else {
+        timeCounter.elapsed();
+        QMessageBox::warning(nullptr, tr("failed"), tr("This level has no solution"), QMessageBox::Cancel);
+    }
 }
+int GameSolver::getSolveTime() const
+{
+    return solveTime;
+}
+
 
 std::vector<GameRoute> GameSolver::getRoutes() const {
     return routes;

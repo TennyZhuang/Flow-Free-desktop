@@ -57,9 +57,6 @@ inline bool overBound(int x, int y) {
             y >= SCEAN_SIZE || y < 0);
 }
 
-// four directions used in auto solve
-const int directions[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
-
 } // anonymous namespace
 
 GameScene::GameScene(QWidget *parent) : QWidget(parent) {
@@ -364,6 +361,12 @@ bool GameScene::autoSolve() {
     movesCount = colorsSize;
     update();
 
+    QMessageBox::about(nullptr,
+                       tr("Auto solution"),
+                       tr("Auto solve in ") +
+                          QString::number(solver->getSolveTime()) +
+                          tr(" ms"));
+
     return true;
 }
 
@@ -372,11 +375,8 @@ void GameScene::setSound(int setting) {
 }
 
 void GameScene::onSolved() {
-    qDebug() << "1234";
     answerPoints = solver->getPoints();
     answerRoutes = solver->getRoutes();
-    qDebug() << answerPoints.size();
-    qDebug() << answerRoutes.size();
     emit enableResultButton();
 }
 

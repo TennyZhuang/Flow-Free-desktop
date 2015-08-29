@@ -14,7 +14,9 @@ class GameSolver : public QThread {
 
     std::vector<GameRoute> getRoutes() const;
 
-  protected:
+    int getSolveTime() const;
+
+protected:
     void run();
 
   private:
@@ -22,6 +24,7 @@ class GameSolver : public QThread {
     std::vector<GameRoute> routes;
     int gameSize;
     int colorsSize;
+    int solveTime;
 
     bool dfs(int routeId);
   signals:
