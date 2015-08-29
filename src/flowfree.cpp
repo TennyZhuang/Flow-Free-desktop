@@ -38,6 +38,11 @@ FlowFree::FlowFree(QWidget *parent) :
     connect(ui->resultButton, &QPushButton::clicked,
             ui->gameScene, &GameScene::autoSolve);
 
+    connect(ui->resultButton, &QPushButton::clicked,
+    [=]() {
+        ui->resultButton->setEnabled(false);
+    });
+
     connect(ui->gameScene, &GameScene::nextLevel,
     [=]() {
         ui->nextLevelButton->click();

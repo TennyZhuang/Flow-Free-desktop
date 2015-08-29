@@ -16,7 +16,7 @@ class GameSolver : public QThread {
 
     int getSolveTime() const;
 
-protected:
+  protected:
     void run();
 
   private:

@@ -343,7 +343,7 @@ void GameScene::complete(int pointsCount) {
 bool GameScene::autoSolve() {
     for (int i = 0; i < gameSize; i++) {
         for (int j = 0; j < gameSize; j++) {
-            points[j][i].color = answerPoints[j][i].color;
+            points[j][i] = answerPoints[j][i];
         }
     }
 
@@ -364,8 +364,9 @@ bool GameScene::autoSolve() {
     QMessageBox::about(nullptr,
                        tr("Auto solution"),
                        tr("Auto solve in ") +
-                          QString::number(solver->getSolveTime()) +
-                          tr(" ms"));
+                       QString::number(solver->getSolveTime()) +
+                       tr(" ms. ") +
+                       tr("result can be shown only once."));
 
     return true;
 }
@@ -411,7 +412,12 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
     const Level level = gameModal->getLevel(currentLevelId);
 
     if (solver) {
-        delete solver;
+        if (solver->isRunning())
+            solver->quit();
+        else {
+            delete solver;
+        }
+
         solver = nullptr;
     }
 

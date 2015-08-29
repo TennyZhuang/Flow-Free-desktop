@@ -31,6 +31,7 @@ void GameSolver::run() {
 
     QTime timeCounter;
     timeCounter.start();
+
     if (dfs(1)) {
         solveTime = timeCounter.elapsed();
     } else {
@@ -38,8 +39,7 @@ void GameSolver::run() {
         QMessageBox::warning(nullptr, tr("failed"), tr("This level has no solution"), QMessageBox::Cancel);
     }
 }
-int GameSolver::getSolveTime() const
-{
+int GameSolver::getSolveTime() const {
     return solveTime;
 }
 
