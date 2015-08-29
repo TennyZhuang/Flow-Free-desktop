@@ -69,6 +69,7 @@ GameScene::GameScene(QWidget *parent) : QWidget(parent) {
     dialog = new CompleteDialog;
     timer = new QTimer;
     timer->setInterval(1000);
+    solver = nullptr;
 
     connect(timer, &QTimer::timeout,
     [=]() {
@@ -343,10 +344,19 @@ void GameScene::complete(int pointsCount) {
 }
 
 bool GameScene::autoSolve() {
-    while (solver);
+    for (int i = 0; i < gameSize; i++) {
+        for (int j = 0; j < gameSize; j++) {
+            points[j][i] = answerPoints[j][i];
+        }
+    }
 
-    points = answerPoints;
-    routes = answerRoutes;
+    for (int i = 1; i <= colorsSize; i++) {
+        routes[i].clear();
+        for (const auto point: answerRoutes[i].getPoints()) {
+            routes[i].addPoint(&points[point->row][point->col]);
+        }
+    }
+
     movesCount = colorsSize;
     update();
 
@@ -363,8 +373,6 @@ void GameScene::onSolved() {
     answerRoutes = solver->getRoutes();
     qDebug() << answerPoints.size();
     qDebug() << answerRoutes.size();
-//    delete solver;
-    solver = nullptr;
     emit enableResultButton();
 }
 
@@ -397,6 +405,11 @@ void GameScene::onLoadLevel(quint32 currentLevelId) {
     emit timeChanged(currentTime);
     timer->start();
     const Level level = gameModal->getLevel(currentLevelId);
+
+    if (solver) {
+        delete solver;
+        solver = nullptr;
+    }
     points = level.getPoints();
     gameSize = level.getSize();
     colorsSize = level.getColorsSize();
