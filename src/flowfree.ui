@@ -115,9 +115,6 @@
         </item>
         <item>
          <widget class="QPushButton" name="nextLevelButton">
-          <property name="styleSheet">
-           <string notr="true">font: 13pt &quot;Helvetica&quot;;</string>
-          </property>
           <property name="text">
            <string>Next</string>
           </property>

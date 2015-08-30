@@ -3,11 +3,17 @@
 #include "gamemodel.h"
 #include "ui_flowfree.h"
 #include <QDebug>
+#include <QFile>
 
 FlowFree::FlowFree(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::FlowFree) {
     ui->setupUi(this);
+
+    QFile *file = new QFile(":/stylesheets/button.qss");
+        file->open(QFile::ReadOnly);
+        setStyleSheet(file->readAll());
+        file->deleteLater();
 
     quint32 gameSize = GameModel::instance()->size();
     connect(this, SIGNAL(loadLevel(quint32)),

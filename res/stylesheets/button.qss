@@ -1,0 +1,50 @@
+QPushButton {
+	border-radius:5px;
+	margin: 5% 5%;
+	padding: 10% 0;
+	color: #eeeeff;
+}
+
+QPushButton#lastLevelButton {
+	background-color: rgb(96, 186, 255);
+}
+
+QPushButton#lastLevelButton:pressed {
+	background-color: rgb(86, 176, 245);
+}
+
+QPushButton#reloadButton {
+	background-color: rgb(0, 205, 0);
+}
+
+QPushButton#reloadButton:pressed {
+	background-color: rgb(0, 195, 0);
+}
+
+QPushButton#nextLevelButton {
+	background-color: rgb(255, 165, 0);
+}
+
+QPushButton#nextLevelButton:pressed {
+	background-color: rgb(245, 155, 0);
+}
+
+QPushButton#resultButton {
+	background-color: rgb(160, 32, 240);
+}
+
+QPushButton#resultButton:pressed {
+	background-color: rgb(150, 22, 230);
+}
+
+QPushButton#lastLevelButton:disabled {
+        background-color: rgb(100, 100, 100);
+}
+
+QPushButton#nextLevelButton:disabled {
+        background-color: rgb(100, 100, 100);
+}
+
+QPushButton#resultButton:disabled {
+        background-color: rgb(100, 100, 100);
+}
