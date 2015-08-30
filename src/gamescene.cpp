@@ -95,16 +95,18 @@ void GameScene::paintEvent(QPaintEvent *ev) {
     // draw grids
     p.setPen(QPen(QColor(100, 255, 218), 2));
 
+    int offset = (gameSize >= 8) + (gameSize >= 6);
+
     for (quint32 i = 0; i <= gameSize; i++) {
         p.drawLine(SCEAN_PADDING + 2,
                    SCEAN_PADDING + 2 + i * spacing,
-                   SCEAN_SIZE - SCEAN_PADDING,
+                   SCEAN_SIZE - SCEAN_PADDING - offset,
                    SCEAN_PADDING + 2 + i * spacing);
 
         p.drawLine(SCEAN_PADDING + 2 + i * spacing,
                    SCEAN_PADDING + 2,
                    SCEAN_PADDING + 2 +  i * spacing,
-                   SCEAN_SIZE - SCEAN_PADDING);
+                   SCEAN_SIZE - SCEAN_PADDING - offset);
     }
 
     // draw routes
