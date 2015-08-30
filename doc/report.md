@@ -57,9 +57,9 @@ Flow Free 目前有 Android 版和 iOS 版，在各大应用市场均可免费�
 
 ### 游戏界面介绍
 
-![game screenshot](https://s3.amazonaws.com/f.cl.ly/items/281u0x1b0I3m3J1E2u35/flow-free-screenshot.png)
+![game screenshot](https://s3.amazonaws.com/f.cl.ly/items/1M0m1v2V0X0p370d1Y1q/flow-free-screenshot.png)
 
-![game screenshot2](https://s3.amazonaws.com/f.cl.ly/items/0M2a392D3M3l1b1W191B/C049290A-9F34-43CB-8F10-BA4E69D25548.png)
+![game screenshot2](https://s3.amazonaws.com/f.cl.ly/items/3o0n0R2Z1w3m2b2Z1I1e/693927C3-70D8-44E7-9A9F-96C2B0F7632A.png?t=1440911217736)
 
 1. 游戏计时器：记录玩家加载关卡后用的的时间。
 2. 音效设置：玩家可以自由开启或者关闭音效，默认开启。
